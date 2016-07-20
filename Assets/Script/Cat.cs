@@ -45,10 +45,10 @@ public class Cat : MonoBehaviour {
                     GetComponent<Rigidbody2D>().isKinematic = false;
                     if (coll.gameObject.transform.position.x > transform.position.x)
                     {
-                        GetComponent<Rigidbody2D>().AddForce(Vector2.right * -3, ForceMode2D.Impulse);
+                        GetComponent<Rigidbody2D>().AddForce(Vector2.right * -4, ForceMode2D.Impulse);
                     }
                     else
-                        GetComponent<Rigidbody2D>().AddForce(Vector2.right * 3, ForceMode2D.Impulse);
+                        GetComponent<Rigidbody2D>().AddForce(Vector2.right * 4, ForceMode2D.Impulse);
                     spawn.Gameover();
                 }
                 else

@@ -7,9 +7,9 @@ public class Spawn : MonoBehaviour {
     public static bool isfirst = true;
 
     private float playTime = 0;
-    public GameObject curObj;
-    public GameObject preObj;
-    public GameObject topObj;
+    private GameObject curObj;
+    private GameObject preObj;
+    private GameObject topObj;
     private GameObject tpObj;
     private bool isPut = false;
     private bool isCameraMove = false;
@@ -47,7 +47,6 @@ public class Spawn : MonoBehaviour {
     public Image myImg;
     public Text nameText;
    
-
     public Toggle SEToggle;
     public Sprite windsp;
 
@@ -66,7 +65,7 @@ public class Spawn : MonoBehaviour {
     {
         isCameraMove = true;
         preObjPos = Camera.main.WorldToViewportPoint(preObj.transform.position);
-        yield return new WaitUntil(() => preObjPos.y < -0.1f);
+        yield return new WaitUntil(() => preObjPos.y < 0.0f);
         if(newBackground.transform.position.y -Camera.main.transform.position.y < 5)
         {
             int n = Random.Range(0, 4);
@@ -83,7 +82,7 @@ public class Spawn : MonoBehaviour {
             PlayerPrefs.SetString("nickname", "admin");
         }else
             PlayerPrefs.SetString("nickname", gpgsmng.GetNameGPGS());
-        nameText.text += gpgsmng.GetNameGPGS();
+        nameText.text += PlayerPrefs.GetString("nickname");
         datacontroller.updateStarttime();
         datacontroller.getHighScore();
         /*Texture2D tmpTexture = gpgsmng.GetImageGPGS();
@@ -133,7 +132,6 @@ public class Spawn : MonoBehaviour {
 
         tpObj = obj;
         
-        
         StartCoroutine(moveBack());
 
         if (gradiant.transform.localEulerAngles.z > 90 && gradiant.transform.localEulerAngles.z < 270 && !isGameover)
@@ -159,14 +157,15 @@ public class Spawn : MonoBehaviour {
             float m = Random.Range(-2.3f, 2.3f);
             transform.position = new Vector2(m, transform.position.y);
             curObj = Instantiate(cat[n], new Vector2(transform.position.x, transform.position.y - 1f), transform.rotation) as GameObject;
-            
+            if(Dvalue > 0)
+                curObj.GetComponent<SpriteRenderer>().flipX = true;
             //바람표시
             n = Random.Range(0, 5);
             if(n < 2)
             {
                 int p = Random.Range(-3, 4);
                 windPower = p * 10;
-                windText.text = Mathf.Abs(windPower) + "\nwind";
+                windText.text = Mathf.Abs(windPower) + "\nWind";
 
                 if (p > 0)
                 {
@@ -184,7 +183,7 @@ public class Spawn : MonoBehaviour {
             else
             {
                 windPower = 0;
-                windText.text = 0 + "\nwind";
+                windText.text = 0 + "\nWind";
                 windIcon.GetComponent<SpriteRenderer>().sprite = null;
             }
             //curObj.transform.SetParent(background.transform);
@@ -223,6 +222,7 @@ public class Spawn : MonoBehaviour {
         }
         else
         {
+            nameText.text += PlayerPrefs.GetString("nickname");
             scoreText.gameObject.SetActive(true);
             readyCat();
             direction = Dvalue;
@@ -267,10 +267,12 @@ public class Spawn : MonoBehaviour {
             if (transform.position.x < -2.3)
             { //spawn움직임
                 direction = Dvalue;
+                curObj.GetComponent<SpriteRenderer>().flipX = true;
             }
             else if (transform.position.x > 2.3)
             {
                 direction = Dvalue * -1;
+                curObj.GetComponent<SpriteRenderer>().flipX = false;
             }
             if (!isPut)
             {
