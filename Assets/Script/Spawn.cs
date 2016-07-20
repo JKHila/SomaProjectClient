@@ -46,6 +46,7 @@ public class Spawn : MonoBehaviour {
     public Text windText;
     public Image myImg;
     public Text nameText;
+    public Text logining;
    
     public Toggle SEToggle;
     public Sprite windsp;
@@ -57,6 +58,7 @@ public class Spawn : MonoBehaviour {
         yield return new WaitUntil(()=>GPGSMng.logined);
         //yield return new WaitForSeconds(2.0f);
         setUser();
+        logining.text = "유저 정보 받는중...";
         yield return new WaitUntil(() =>dataController.isready);
         yield return new WaitForSeconds(1.0f);
         logoPanel.SetActive(false);
@@ -82,7 +84,7 @@ public class Spawn : MonoBehaviour {
             PlayerPrefs.SetString("nickname", "admin");
         }else
             PlayerPrefs.SetString("nickname", gpgsmng.GetNameGPGS());
-        nameText.text += PlayerPrefs.GetString("nickname");
+        nameText.text = "Name : "+ PlayerPrefs.GetString("nickname");
         datacontroller.updateStarttime();
         datacontroller.getHighScore();
         /*Texture2D tmpTexture = gpgsmng.GetImageGPGS();
@@ -157,7 +159,7 @@ public class Spawn : MonoBehaviour {
             float m = Random.Range(-2.3f, 2.3f);
             transform.position = new Vector2(m, transform.position.y);
             curObj = Instantiate(cat[n], new Vector2(transform.position.x, transform.position.y - 1f), transform.rotation) as GameObject;
-            if(Dvalue > 0)
+            if(direction > 0)
                 curObj.GetComponent<SpriteRenderer>().flipX = true;
             //바람표시
             n = Random.Range(0, 5);
@@ -191,20 +193,12 @@ public class Spawn : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        //PlayerPrefs.DeleteAll();
-        //setUser();
-       
-        if (PlayerPrefs.GetInt("isSE_On") == 1)
+        //앱처음실행시만
+        if(PlayerPrefs.GetInt("isFirst")== 0)
         {
-            PlayerPrefs.SetInt("isSE_On", 0);
-            SEToggle.isOn = true;
+            
+            PlayerPrefs.SetInt("isFirst",1);
         }
-        else
-        {
-            PlayerPrefs.SetInt("isSE_On", 1);
-            SEToggle.isOn = false;
-        }
-           
         if (isfirst)
         {
             Debug.Log(Social.localUser.authenticated);
@@ -212,11 +206,8 @@ public class Spawn : MonoBehaviour {
             gpgsmng.InitializeGPGS();
             gpgsmng.LoginGPGS();
             StartCoroutine(waitLogin());
-            /* if(PlayerPrefs.GetString("nickname") == "")
-             {
-                 joinPanel.SetActive(true);
-             }*/
 
+            datacontroller.registid();
             gameoverPanel.SetActive(true);
             titleScoreText.gameObject.SetActive(false);
         }
@@ -224,8 +215,8 @@ public class Spawn : MonoBehaviour {
         {
             nameText.text += PlayerPrefs.GetString("nickname");
             scoreText.gameObject.SetActive(true);
-            readyCat();
             direction = Dvalue;
+            readyCat();
             topObj = firstCat;
             preObj = grass;
         }

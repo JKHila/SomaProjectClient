@@ -29,7 +29,10 @@ public class RankingController : MonoBehaviour {
         else count = tempJson.Count;
         for (int i = 0; i < count; i++)
         {
-            nameText.text += tempJson[i].GetField("nick_name").str +'\n';
+            string tmpName = tempJson[i].GetField("nick_name").str + '\n';
+            if (tmpName.Length > 9)
+                tmpName = tmpName.Substring(0,7)+"...";
+            nameText.text += tmpName;
             scoreText.text += tempJson[i].GetField("score").ToString() +'\n';
            // nameText.text.Replace
             //Debug.Log(tempJson[i].Print(false));

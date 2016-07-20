@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class dataController : MonoBehaviour {
+public class dataController : MonoBehaviour
+{
     public static bool isready;
     public RankingController rankingcontroller;
+
+    private string hexToken;
     public void getHighScore()
     {
         Dictionary<string, string> data = new Dictionary<string, string>
@@ -15,6 +18,19 @@ public class dataController : MonoBehaviour {
     public void requestRankingList()
     {
         GET(1, "http://52.41.1.215:3000/rankinglist");
+    }
+    public void registid()
+    {
+        hexToken = SystemInfo.deviceUniqueIdentifier;
+        if (hexToken != null)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>
+            {
+                 {"regId",hexToken}
+            };
+            POST(0, "http://52.41.1.215:3000/register", data);
+        }
+
     }
     public void updatePlaytime()
     {
@@ -66,15 +82,15 @@ public class dataController : MonoBehaviour {
             {"score","300" }
         };
         requestRankingList();*/
-      
-       
+
+
     }
-    void GET(int id,string url)
+    void GET(int id, string url)
     {
         WWW www = new WWW(url);
-        StartCoroutine(WaitForRequest(id,www));
+        StartCoroutine(WaitForRequest(id, www));
     }
-    void POST(int id,string url, Dictionary<string, string> post)
+    void POST(int id, string url, Dictionary<string, string> post)
     {
         WWWForm form = new WWWForm();
         foreach (KeyValuePair<string, string> post_arg in post)
@@ -83,9 +99,9 @@ public class dataController : MonoBehaviour {
         }
         var www = new WWW(url, form);
 
-        StartCoroutine(WaitForRequest(id,www));
+        StartCoroutine(WaitForRequest(id, www));
     }
-    IEnumerator WaitForRequest(int id,WWW www)
+    IEnumerator WaitForRequest(int id, WWW www)
     {
         yield return www;
 
@@ -96,8 +112,8 @@ public class dataController : MonoBehaviour {
                 case 1: rankingcontroller.showRankingList(www.text); break;
                 case 2: rankingcontroller.setHighScore(www.text); isready = true; break;
             }
-           // Debug.Log("WWW ok! : " + www.text);
-           // PostCallBack(www.text);
+            // Debug.Log("WWW ok! : " + www.text);
+            // PostCallBack(www.text);
         }
         else
         {
