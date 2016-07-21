@@ -28,6 +28,7 @@ public class dataController : MonoBehaviour
             {
                  {"regId",hexToken}
             };
+           // POST(0, "http://localhost:3000/register", data);
             POST(0, "http://52.41.1.215:3000/register", data);
         }
 

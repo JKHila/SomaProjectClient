@@ -119,7 +119,7 @@ public class Spawn : MonoBehaviour {
             if(PlayerPrefs.GetInt("highScore") < totalScore)
             {
                 PlayerPrefs.SetInt("highScore", totalScore);
-                datacontroller.updateHighScore(totalScore);
+                datacontroller.updateHighScore(PlayerPrefs.GetInt("highScore"));
             }
             highScore.text += "  " + PlayerPrefs.GetInt("highScore").ToString();
             titleScoreText.gameObject.SetActive(true);
