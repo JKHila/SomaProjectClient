@@ -6,6 +6,7 @@ public class RankingController : MonoBehaviour {
     public Text nameText;
     public Text scoreText;
     public Text highScore;
+   
     public void setHighScore(string text)
     {
         JSONObject tempJson = new JSONObject(text);

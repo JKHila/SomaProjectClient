@@ -7,15 +7,21 @@ public class Title : MonoBehaviour {
     public GameObject rankingPanel;
     public GameObject settingPanel;
     public GameObject exitPanel;
+    public GameObject logoPanel;
 
     public dataController datacontroller;
  
+    public void OnRankingBackBtnDown()
+    {
+        rankingPanel.SetActive(false);
+    }
     public void OnCloseYesBtnDown()
     {
         QuitGame();
     }
     public void OnCloseNoBtnDown()
     {
+        Time.timeScale = 1;
         exitPanel.SetActive(false);
     }
     public void OnSettingBtnDown()
@@ -54,9 +60,18 @@ public class Title : MonoBehaviour {
 	void Update () {
         playTime += Time.deltaTime;
         
-        if (dataController.isready && Input.GetKeyDown(KeyCode.Escape))
+        if (!logoPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         { //Quit game
-            exitPanel.SetActive(true);
+            if (!exitPanel.activeSelf)
+            {
+                Time.timeScale = 0;
+                exitPanel.SetActive(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+                exitPanel.SetActive(false);
+            }
         }
         if (Input.GetKeyDown(KeyCode.Delete))
         {

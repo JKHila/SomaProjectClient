@@ -22,15 +22,14 @@ public class dataController : MonoBehaviour
     public void registid(string id)
     {
         //hexToken = SystemInfo.deviceUniqueIdentifier;
-        if (hexToken != null)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
+
+        Dictionary<string, string> data = new Dictionary<string, string>
             {
                  {"regId",id}
             };
-           // POST(0, "http://localhost:3000/register", data);
-            POST(0, "http://52.41.1.215:3000/register", data);
-        }
+        // POST(0, "http://localhost:3000/register", data);
+        POST(0, "http://52.41.1.215:3000/register", data);
+
 
     }
     public void updatePlaytime()

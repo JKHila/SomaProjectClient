@@ -195,7 +195,9 @@ public class Spawn : MonoBehaviour {
             gpgsmng.InitializeGPGS();
             gpgsmng.LoginGPGS();
             StartCoroutine(waitLogin());
-            
+
+            string[] senderIds = { "225717214172" };
+            GCM.Register(senderIds);
             gameoverPanel.SetActive(true);
             titleScoreText.gameObject.SetActive(false);
         }
@@ -215,7 +217,7 @@ public class Spawn : MonoBehaviour {
         
         if (!isfirst)
         {
-            if (!isGameover&&Input.GetMouseButtonDown(0))
+            if (Time.timeScale == 1&&!isGameover&&Input.GetMouseButtonDown(0))
             {
                 int n = Random.Range(0, 4);
                 

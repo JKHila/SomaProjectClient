@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class GCMController : MonoBehaviour {
-    public Text idText;
     public dataController dc;
+
+    private string _text = "(null)";
     // Use this for initialization
     void Start()
     {
@@ -19,9 +20,9 @@ public class GCMController : MonoBehaviour {
         });
 
         GCM.SetMessageCallback((Dictionary<string, object> table) => {
-            Debug.Log("Message!!! " + table.ToString());
+            Debug.Log("Message!!!");
+            GCM.ShowToast(table["key1"]+":"+table["key2"]);
         });
-
         GCM.SetRegisteredCallback((string registrationId) => {
             Debug.Log("Registered!!! " + registrationId);
             dc.registid(registrationId);
@@ -34,9 +35,7 @@ public class GCMController : MonoBehaviour {
         GCM.SetDeleteMessagesCallback((int total) => {
             Debug.Log("DeleteMessages!!! " + total);
         });
-
-        string[] senderIds = { "225717214172" };
-        GCM.Register(senderIds);
+        
         
     }
 
