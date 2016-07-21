@@ -6,7 +6,6 @@ using GooglePlayGames;
 public class Spawn : MonoBehaviour { 
     public static bool isfirst = true;
 
-    private float playTime = 0;
     private GameObject curObj;
     private GameObject preObj;
     private GameObject topObj;
@@ -14,7 +13,6 @@ public class Spawn : MonoBehaviour {
     private bool isPut = false;
     private bool isCameraMove = false;
     private int numOfCat = 0;
-    private float cameraMoveDelay;
     private float center = 0;
     private int totalScore = 0;
     private Vector3 preObjPos;
@@ -22,7 +20,6 @@ public class Spawn : MonoBehaviour {
     public bool isStart = false;
     public bool isGameover = false;
     
-
     private float direction;
     public float Dvalue;
     public GameObject[] cat = new GameObject[4];
@@ -92,15 +89,7 @@ public class Spawn : MonoBehaviour {
             myImg.sprite = Sprite.Create(tmpTexture, new Rect(0, 0, tmpTexture.width, tmpTexture.height), new Vector2(0, 0));
         */
     }
-    public void QuitGame()
-    {
-        playTime += PlayerPrefs.GetInt("playTime");
-        PlayerPrefs.SetInt("playTime", (int)playTime);
-        datacontroller.updatePlaytime();
-        datacontroller.updateEndtime();
-        Application.Quit();
-        Debug.Log("AA");
-    }
+    
 
     public void Replay()
     {
@@ -206,8 +195,7 @@ public class Spawn : MonoBehaviour {
             gpgsmng.InitializeGPGS();
             gpgsmng.LoginGPGS();
             StartCoroutine(waitLogin());
-
-            datacontroller.registid();
+            
             gameoverPanel.SetActive(true);
             titleScoreText.gameObject.SetActive(false);
         }
@@ -224,22 +212,7 @@ public class Spawn : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        playTime += Time.deltaTime;
         
-            if (Input.GetKeyDown(KeyCode.Escape))
-            { //Quit game
-                QuitGame();
-            }
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            PlayerPrefs.DeleteAll();
-            Debug.Log("delete");
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            QuitGame();
-            //PlayerPrefs.DeleteAll();
-        }
         if (!isfirst)
         {
             if (!isGameover&&Input.GetMouseButtonDown(0))

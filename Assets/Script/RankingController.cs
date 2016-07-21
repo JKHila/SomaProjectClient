@@ -9,7 +9,7 @@ public class RankingController : MonoBehaviour {
     public void setHighScore(string text)
     {
         JSONObject tempJson = new JSONObject(text);
-        Debug.Log(text+","+tempJson);
+        //Debug.Log(text+","+tempJson);
         string score="";
         
         if (text == "[]")

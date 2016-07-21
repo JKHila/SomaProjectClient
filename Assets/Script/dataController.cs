@@ -6,7 +6,7 @@ public class dataController : MonoBehaviour
     public static bool isready;
     public RankingController rankingcontroller;
 
-    private string hexToken;
+    //private string hexToken;
     public void getHighScore()
     {
         Dictionary<string, string> data = new Dictionary<string, string>
@@ -19,14 +19,14 @@ public class dataController : MonoBehaviour
     {
         GET(1, "http://52.41.1.215:3000/rankinglist");
     }
-    public void registid()
+    public void registid(string id)
     {
-        hexToken = SystemInfo.deviceUniqueIdentifier;
+        //hexToken = SystemInfo.deviceUniqueIdentifier;
         if (hexToken != null)
         {
             Dictionary<string, string> data = new Dictionary<string, string>
             {
-                 {"regId",hexToken}
+                 {"regId",id}
             };
            // POST(0, "http://localhost:3000/register", data);
             POST(0, "http://52.41.1.215:3000/register", data);
