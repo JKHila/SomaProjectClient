@@ -9,3 +9,7 @@ balance가 좌또는 우로 너무 치우치면 게임오버되도록했습니�
 
 플러그인은 google play games과 gcm을 이용했습니다.
 
+
+플레이스토어 주소는 다음과같습니다.
+https://play.google.com/store/apps/details?id=com.Soma.highhighnyang
+
