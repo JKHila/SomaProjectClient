@@ -55,8 +55,14 @@ public class Spawn : MonoBehaviour {
         yield return new WaitUntil(()=>GPGSMng.logined);
         //yield return new WaitForSeconds(2.0f);
         setUser();
-        logining.text = "유저 정보 받는중...";
-        yield return new WaitUntil(() =>dataController.isready);
+        if (PlayerPrefs.GetString("nickname") != "noname")
+        {
+            logining.text = "유저 정보 받는중...";
+            yield return new WaitUntil(() => dataController.isready);
+        }else
+        {
+            logining.text = "로그인에 실패해서\n랭킹에 등록할 수 없습니다.";
+        }
         yield return new WaitForSeconds(1.0f);
         logoPanel.SetActive(false);
     }
@@ -76,14 +82,17 @@ public class Spawn : MonoBehaviour {
     }
     public void setUser()
     {
-        if(gpgsmng.GetNameGPGS() == null)
+        if (gpgsmng.GetNameGPGS() == null)
         {
-            PlayerPrefs.SetString("nickname", "admin");
-        }else
+            PlayerPrefs.SetString("nickname", "noname");
+        }
+        else
+        {
             PlayerPrefs.SetString("nickname", gpgsmng.GetNameGPGS());
-        nameText.text = "Name : "+ PlayerPrefs.GetString("nickname");
-        datacontroller.updateStarttime();
-        datacontroller.getHighScore();
+            datacontroller.updateStarttime();
+            datacontroller.getHighScore();
+        }
+        nameText.text = "Name : " + PlayerPrefs.GetString("nickname");
         /*Texture2D tmpTexture = gpgsmng.GetImageGPGS();
         if (tmpTexture)
             myImg.sprite = Sprite.Create(tmpTexture, new Rect(0, 0, tmpTexture.width, tmpTexture.height), new Vector2(0, 0));
@@ -105,7 +114,7 @@ public class Spawn : MonoBehaviour {
             scoreText.gameObject.SetActive(false);
             gameoverPanel.SetActive(true);
             //scoreText.transform.position = new Vector2(scoreText.transform.position.x, scoreText.transform.position.y - 160);
-            if(PlayerPrefs.GetInt("highScore") < totalScore)
+            if(PlayerPrefs.GetString("nickname") != "noname" && PlayerPrefs.GetInt("highScore") < totalScore)
             {
                 PlayerPrefs.SetInt("highScore", totalScore);
                 datacontroller.updateHighScore(PlayerPrefs.GetInt("highScore"));

@@ -31,8 +31,8 @@ public class RankingController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             string tmpName = tempJson[i].GetField("nick_name").str + '\n';
-            if (tmpName.Length > 9)
-                tmpName = tmpName.Substring(0,7)+ "...\n";
+            //if (tmpName.Length > 9)
+            //    tmpName = tmpName.Substring(0,7)+ "...\n";
             nameText.text += tmpName;
             scoreText.text += tempJson[i].GetField("score").ToString() +'\n';
            // nameText.text.Replace
