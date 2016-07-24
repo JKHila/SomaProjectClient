@@ -85,6 +85,7 @@ public class Spawn : MonoBehaviour {
         if (gpgsmng.GetNameGPGS() == null)
         {
             PlayerPrefs.SetString("nickname", "noname");
+            highScore.text += "  " + PlayerPrefs.GetInt("highScore").ToString();
         }
         else
         {
